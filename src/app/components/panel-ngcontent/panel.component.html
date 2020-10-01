@@ -1,0 +1,14 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <!-- cuando llamemos a este component, remplazaremos el ng-content por el marcado que tenga como clase
+    header -->
+    <ng-content selector=".heading"></ng-content>
+  </div>
+
+  <div class="panel-body">
+    <!-- cuando llamemos a este component, remplazaremos el ng-content por el marcado que tenga como clase
+    body -->
+    <ng-content selector=".body"></ng-content>
+  </div>
+  <button class="btn btn-danger"></button>
+</div>

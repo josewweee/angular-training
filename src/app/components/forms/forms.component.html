@@ -1,0 +1,87 @@
+<!-- Con el ngForm y el #form podremos hacer uso del ngSubmit, para poder tomar todos los value del from y mas detalles. -->
+<form #form="ngForm" (ngSubmit)="submit(form)">
+  <!-- El ngModelGroup nos sirve para agrupar varios forms, de forma que a la hora de acceder a ellos tengamos mejor orden -->
+  <div ngModelGroup="contact" #contact="ngModelGroup">
+    <!-- Tambien podemos ponerle el #template-variable para acceder a el -->
+    <div *ngIf="!contact.valid && contact.touched" class="alert alert-danger">
+      errors
+    </div>
+    <div class="form-group">
+      <!-- Con el for en el label, cuando el usuario clickea el label, de una se focusea el input -->
+      <label for="firstName">first name</label>
+      <!-- hacemos la validacion usando ngModel, name y #template-variable, con esto angular crea automaticamente un form-control que podemos usar aqui mismo -->
+      <!-- Estos template validation son utiles para cuando tenemos un FORM sencillo en donde podemos usar los validators properties -->
+      <input
+        required
+        minlength="3"
+        maxlength="10"
+        pattern="banana"
+        type="text"
+        class="form-control"
+        id="firstName"
+        ngModel
+        name="firstName"
+        #firstName="ngModel"
+      />
+      <!-- Alerta bonita de error, traida por bootstrap, podemos usar las propiedades del form-control creado por el ngModel -->
+      <div
+        class="alert alert-danger"
+        *ngIf="firstName.touched && !firstName.valid"
+      >
+        <div *ngIf="firstName.errors.required">Fist name is required</div>
+        <div *ngIf="firstName.errors.minlength">
+          Fist name is not long enough, min:
+          {{ firstName.errors.minlength.requiredLength }}
+        </div>
+        <div *ngIf="firstName.errors.maxlength">Fist name is too long</div>
+        <div *ngIf="firstName.errors.pattern">
+          Fist name dosent match the patter
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="comment"> comment </label>
+    <textarea
+      name="comment"
+      id="comment"
+      cols="30"
+      rows="10"
+      class="form-control"
+      ngModel
+      #comment
+    ></textarea>
+  </div>
+  <!-- los checkbox son asi -->
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ngModel name="isSuscribe" /> Suscribe to mailing
+      list
+    </label>
+  </div>
+  <!-- hacemos un dropdown -->
+  <div class="form-group">
+    <label for="contactMethod"> Contact Method</label
+    ><select
+      ngModel
+      name="contactMethod"
+      id="contactMethod"
+      class="form-control"
+    >
+      <option value=""></option>
+      <!-- ngValue sirve para asignar un objeto completo como value, aunque no es muy comun querer esto. Mejor usar [value]="method.id" -->
+      <option *ngFor="let method of contactMethods" [ngValue]="method">
+        {{ method.name }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngFor="let method of contactMethods" class="radio">
+    <label
+      ><input ngModel type="radio" name="contactMethod" [value]="method.id" />
+      {{ method.name }}</label
+    >
+  </div>
+  <p>{{ form.value | json }}</p>
+  <button [disabled]="!form.valid" class="btn btn-primary">Submit</button>
+</form>

@@ -1,0 +1,104 @@
+<!-- El asterisco * antes del ng es para indicar que angular va a crear un ng-template con property [ng..]="expression"-->
+<div>
+  <h3>NgIf</h3>
+  <!-- mejor para elementos grandes que no son duros de renderizar, para removerlos del DOM -->
+  <div *ngIf="courses2.length > 0; then list; else nolist"></div>
+  <button class="btn btn-dark" (click)="cambiarCourses()">
+    Cambiar ngIf status
+  </button>
+  <!-- EL ngtemplate tambien va sin div ni nada, como el ng-container -->
+  <ng-template #list> List of courses</ng-template>
+  <ng-template #nolist> no hay cursos</ng-template>
+</div>
+
+<div>
+  <h3>Hidden</h3>
+  <!-- para elementos grandes que son costosos de renderizar -->
+  <div [hidden]="courses2.length > 0">lista de cursos no hidden</div>
+  <div [hidden]="courses2.length !== 0">sin lista de cursos, hidden</div>
+</div>
+
+<div>
+  <h3>Ng Switch</h3>
+  <!-- Util para cuando necesitamos un ngIF con varios casos, como aqui, 1 caso pa map, 1 pa list, 1 pa default, etc... -->
+  <div>
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [class.active]="viewMode == 'map'"
+          (click)="viewMode = 'map'"
+          >map view</a
+        >
+      </li>
+      <li>
+        <a
+          class="nav-link"
+          [class.active]="viewMode == 'list'"
+          (click)="viewMode = 'list'"
+          >list view</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div [ngSwitch]="viewMode">
+    <div *ngSwitchCase="'map'">map view content</div>
+    <div *ngSwitchCase="'list'">list view content</div>
+    <div *ngSwitchDefault>Otherwise</div>
+  </div>
+</div>
+
+<div>
+  <h3>NgFor</h3>
+  <button (click)="loadList()">Cargar lista</button>
+  <ul>
+    <!-- Con trackBy, hacemos que angular haga seguimiento a un item no por su pos en memoria, sino por un parametro que especifiquemos, asi haciendo
+    que si un item no cambia, no haga re render, haciendo nuestros programas mas optimos, es como el index en react, no siempre es necesaria -->
+    <li *ngFor="let course of courses; even as isEven; trackBy: trackCourse">
+      <!-- Tambien puede ser trackBy: item.id para ahorrarnos la funcion -->
+      {{ course.name }} <span *ngIf="isEven">(es par)</span>
+    </li>
+  </ul>
+</div>
+
+<div>
+  <h3>NgClass</h3>
+  <!-- Esto seria igual que [class.glyhicon]="expresion"... -->
+  <span
+    class="glyphicon"
+    [ngClass]="{
+      'glyphicon-star': isSelected,
+      'glyphicon-star-empy': !isSelected
+    }"
+    >icon</span
+  >
+</div>
+
+<div>
+  <h3>NgStyle</h3>
+  <!-- [style.backgroundColor] es property binding, [ngStyle] es con la directive y es mas limpio -->
+  <button
+    [style.backgroundColor]="isSelected ? 'blue' : 'gray'"
+    [ngStyle]="{
+      color: isSelected ? 'white' : 'black',
+      fontWeight: isSelected ? 'bold' : 'normal'
+    }"
+  >
+    icon
+  </button>
+</div>
+
+<div>
+  <!-- Evitamos errores, si alguno de los items en el objeto es null o undefined -->
+  <h3>Safe trasversal</h3>
+  <span>{{ courses?.location?.city }}</span>
+</div>
+
+<div>
+  <h3>Custom directive</h3>
+  <p>lowercase</p>
+  <input type="text" appInputFormat [format]="'lowercase'" />
+  <p>uppercase</p>
+  <input type="text" [appInputFormat]="'uppercase'" />
+  <!-- Esto se puede asi si solo usamos 1 propiedad, format -->
+</div>

@@ -1,0 +1,21 @@
+<div *ngFor="let follower of followers" class="media">
+  <div class="media-left">
+    <a href="#">
+      <img
+        class="avatar media-object"
+        src="{{ follower.avatar_url }}"
+        alt="..."
+      />
+    </a>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">
+      <!-- Cuando queremos un router con parametros de ruta (dinamico), usamos el routerLink como un property binding, y luego con un array
+      el primer valor es la ruta y los siguientes valores los parametros de la ruta, el id por ejemplo -->
+      <a [routerLink]="['/followers', follower.id, follower.login]">{{
+        follower.login
+      }}</a>
+    </h4>
+    <a href="follower.html_url">{{ follower.html_url }}</a>
+  </div>
+</div>

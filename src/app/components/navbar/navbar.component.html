@@ -1,0 +1,19 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <ul class="nav navbar-nav">
+      <!-- Podemos usar el routerLink asi normal, cuando no tienen parametros de ruta adicionales -->
+      <li routerLinkActive="active current"><a routerLink="/">Home</a></li>
+      <!-- RouterLinkactive nos deja activo el current li -->
+      <li routerLinkActive="active current">
+        <!-- Optional queryParams desde html -->
+        <a routerLink="/followers" [queryParams]="{ page: 1, order: 'newest' }"
+          >Followers links</a
+        >
+      </li>
+      <li routerLinkActive="active current">
+        <a routerLink="/posts">Http posts</a>
+      </li>
+    </ul>
+    <div class="collapse navbar-collapse"></div>
+  </div>
+</nav>
